@@ -164,6 +164,17 @@ namespace custom
    // ---------- Brayden Code to Complete ----------
    void priority_queue<T>::pop()
    {
+       if (container.empty())
+           return;
+
+       // Swap the root/top and last element
+       std::swap(container[0], container[container.size() - 1]);
+       // Remove the old root
+       container.pop_back(); 
+
+       // Percolate down
+       if (!container.empty())
+           percolateDown(1); // start from top
    }
 
    /*****************************************
@@ -229,6 +240,14 @@ namespace custom
    // ---------- Brayden Code to Complete ----------
    void priority_queue<T>::heapify()
    {
+       if (container.empty())
+           return;
+
+       size_t num = container.size();
+
+       // Every node i > floor(num/2) is a leaf, so start at last parent
+       for (size_t i = num / 2; i > 0; i--)
+           percolateDown(i); // from that node
    }
 
    /************************************************
@@ -241,6 +260,7 @@ namespace custom
    inline void swap(custom::priority_queue <T>& lhs,
        custom::priority_queue <T>& rhs)
    {
+       std::swap(lhs.container, rhs.container);
    }
 
 };
