@@ -122,13 +122,13 @@ namespace custom
       // ---------- James Code to Complete ----------
       size_t size() const
       {
-          return 99;
+          return container.size();
       }
 
       // ---------- James Code to Complete ----------
       bool empty() const
       {
-          return false;
+          return size() == size_t(0);
       }
 
    private:
@@ -152,7 +152,13 @@ namespace custom
    // ---------- James Code to Complete ----------
    const T& priority_queue<T>::top() const
    {
-       return *(new T);
+      // Check if empty
+      if (empty()) {
+         throw std::out_of_range("std:out_of_range");
+      }
+
+      // Return the top element
+       return container[0];
    }
 
    /**********************************************
@@ -175,13 +181,26 @@ namespace custom
    // ---------- James Code to Complete ----------
    void priority_queue<T>::push(const T& t)
    {
+      // Put the new element in
+      container.push_back(t);
+      // Get the index we need to percolate from
+      size_t index = container.size() / 2;
+      // Keep percolating while the index is valid and the necessity is there
+      while (index && percolateDown(index))
+         index = index / 2;
    }
 
    // ---------- James Code to Complete ----------
    template <class T>
    void priority_queue<T>::push(T&& t)
    {
-
+      // Put the new element in
+      container.push_back(t);
+      // Get the index we need to percolate from
+      size_t index = container.size() / 2;
+      // Keep percolating while the index is valid and the necessity is there
+      while (index && percolateDown(index))
+         index = index / 2;
    }
 
    /************************************************
